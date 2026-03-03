@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import en from "@/locales/en";
 import cn from "@/locales/cn";
 import type { Translations } from "@/locales/en";
@@ -21,18 +21,17 @@ const LanguageContext = createContext<LanguageContextType>({
   t: en,
 });
 
+function getInitialLanguage(): LanguageCode {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("app-language");
+    if (saved === "EN" || saved === "CN") return saved;
+  }
+  return "EN";
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<LanguageCode>("EN");
+  const [language, setLanguageState] = useState<LanguageCode>(getInitialLanguage);
 
-  // Load saved language from localStorage on first render
-  useEffect(() => {
-    const saved = localStorage.getItem("app-language") as LanguageCode | null;
-    if (saved === "EN" || saved === "CN") {
-      setLanguageState(saved);
-    }
-  }, []);
-
-  // Save to localStorage whenever language changes
   const setLanguage = (lang: LanguageCode) => {
     setLanguageState(lang);
     localStorage.setItem("app-language", lang);

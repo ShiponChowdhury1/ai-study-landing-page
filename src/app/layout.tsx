@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Learn Fast - AI Study Landing Page",
+  title: "Learn Fast - AI-powered study assistant for students",
   description: "Master any subject with interactive quizzes, smart learning paths, and instant feedback.",
 };
 

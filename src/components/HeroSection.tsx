@@ -232,7 +232,7 @@ export default function HeroSection() {
                     />
                   ))}
                 </div>
-                <span className="text-gray-600 text-sm sm:text-base">
+                <span className="text-[#364153] text-[16px] sm:text-base">
                   {t.hero.rating}
                 </span>
               </div>
