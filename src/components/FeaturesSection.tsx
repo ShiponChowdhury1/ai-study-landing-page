@@ -1,53 +1,37 @@
-import Image from "next/image";
+"use client";
 
-const features = [
-  {
-    image: "/images/man/baby.png",
-    title: "Smart Learning",
-    description:
-      "Structured lessons and guided pathways to your learning goals and style.",
-  },
-  {
-     image: "/images/man/child.png",
-    title: "Interactive Quizzes",
-    description:
-      "Multiple choice questions with instant feedback and detailed explanations.",
-  },
-  {
-    image: "/images/man/women.png",
-    title: "Personal Library",
-    description:
-      "Store and organize your favourite content for quick reference anytime.",
-  },
-  {
-   
-    image: "/images/man/baby1.png",
-    title: "Secure Login",
-    description:
-      "Safe authentication and password recovery for complete account security.",
-  },
+import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
+
+const featureImages = [
+  "/images/man/baby.png",
+  "/images/man/child.png",
+  "/images/man/women.png",
+  "/images/man/baby1.png",
 ];
 
 const FeaturesSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="features" className="w-full bg-white py-12 sm:py-16 lg:py-20">
-      <div className="mx-auto px-4 sm:px-6 max-w-[1216px]">
+      <div className="mx-auto px-5 sm:px-6 lg:px-8 max-w-[1216px]">
         {/* Section Header */}
         <div className="text-center mb-10 sm:mb-12 lg:mb-16">
           <h2 className="text-2xl sm:text-[28px] lg:text-[32px] font-bold text-gray-900">
-            Everything You Need to Excel
+            {t.features.heading}
           </h2>
           <p className="mt-2 sm:mt-3 text-sm sm:text-base text-gray-500">
-            Powerful features designed to accelerate your learning journey
+            {t.features.subheading}
           </p>
         </div>
 
         {/* Feature Cards - Responsive grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 justify-items-center">
-          {features.map((feature, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 justify-items-center">
+          {t.features.items.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center w-full max-w-[280px] rounded-2xl border border-[#F3F4F6] bg-white p-4 sm:p-6"
+              className="flex flex-col items-center text-center w-full rounded-2xl border border-[#F3F4F6] bg-white p-4 sm:p-6"
             >
               {/* Blob Shape Image */}
               <div className="mb-4 sm:mb-5 relative w-[160px] h-[160px] sm:w-[200px] sm:h-[200px]">
@@ -59,7 +43,7 @@ const FeaturesSection = () => {
                   }}
                 >
                   <Image
-                    src={feature.image}
+                    src={featureImages[index]}
                     alt={feature.title}
                     width={200}
                     height={200}

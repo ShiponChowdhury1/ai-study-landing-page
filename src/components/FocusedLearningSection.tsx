@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { HiOutlinePaperAirplane } from "react-icons/hi2";
+import { useLanguage } from "@/context/LanguageContext";
 
 const mockups = [
   { src: "/images/mockup/mockup4.png", alt: "App Screen 4" },
@@ -9,25 +12,23 @@ const mockups = [
 ];
 
 const FocusedLearningSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="w-full bg-white py-20">
-      <div className="mx-auto px-6" style={{ maxWidth: "1216px" }}>
+      <div className="mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: "1216px" }}>
         {/* Section Header */}
         <div className="relative text-center mb-14">
-          {/* Paper plane decoration on left */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2">
+          <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2">
             <HiOutlinePaperAirplane className="h-9 w-9 text-[#155DFC] -rotate-45 opacity-80" />
           </div>
-
           <h2 className="text-[32px] font-bold text-gray-900">
-            Designed for Focused Learning
+            {t.focusedLearning.heading}
           </h2>
           <p className="mt-3 text-base text-gray-500">
-            Beautiful, intuitive interface that keeps you engaged
+            {t.focusedLearning.subheading}
           </p>
-
-          {/* Teal hollow dot decoration on right */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border-4 border-teal-400" />
+          <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border-4 border-teal-400" />
         </div>
 
         {/* Mockup Images - 4 phone mockups */}

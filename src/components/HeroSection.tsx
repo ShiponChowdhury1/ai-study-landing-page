@@ -1,22 +1,37 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown, Star, Menu, X } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const languages = [
+    { code: "EN" as const, label: "English (US)" },
+    { code: "CN" as const, label: "\u4E2D\u6587 (Chinese)" },
+  ];
 
   const navItems = [
-    { name: "Features", href: "#features" },
-    { name: "How It Works", href: "#how-it-works" },
-    { name: "Quiz", href: "#quiz" },
-    { name: "Learners", href: "#learners" },
+    { name: t.nav.features, href: "#features" },
+    { name: t.nav.howItWorks, href: "#how-it-works" },
+    { name: t.nav.quiz, href: "#quiz" },
+    { name: t.nav.learners, href: "#learners" },
   ];
 
   return (
-    <section className="relative w-full">
+    <section className="relative w-full pt-[60px] sm:pt-[65px]">
       {/* Background with dripping effect - hidden on mobile, visible on sm+ */}
       <div
         className="hidden sm:block absolute inset-0 w-full h-full"
@@ -38,9 +53,9 @@ export default function HeroSection() {
       <div className="relative z-10">
         {/* Navbar */}
         <nav
-          className="w-full flex flex-col border-b px-4 sm:px-8 lg:px-[165px]"
+          className="fixed top-0 left-0 right-0 z-50 w-full flex flex-col border-b px-5 sm:px-6 lg:px-[165px] transition-colors duration-300"
           style={{
-            backgroundColor: menuOpen ? "#155DFC" : "#FFFFFF1A",
+            backgroundColor: menuOpen || scrolled ? "#155DFC" : "#FFFFFF1A",
             borderBottomColor: "rgba(255, 255, 255, 0.2)"
           }}
         >
@@ -49,14 +64,14 @@ export default function HeroSection() {
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
                 <Image
-                  src="/logo/eiduLogo.png"
+                  src="/logo/logo.png"
                   alt="Learn Fast Logo"
                   width={32}
                   height={32}
                   className="object-contain w-6 h-6 sm:w-8 sm:h-8"
                 />
               </div>
-              <span className="text-white font-bold text-lg sm:text-xl">Learn Fast</span>
+              <span className="text-white font-bold text-lg sm:text-xl">{t.brandName}</span>
             </div>
 
             {/* Nav Items - Hidden on mobile/tablet */}
@@ -74,12 +89,35 @@ export default function HeroSection() {
 
             {/* Right Side */}
             <div className="flex items-center gap-2 sm:gap-4">
-              <button className="hidden md:flex items-center gap-1 bg-white/20 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-white hover:bg-white/30 transition-colors text-sm">
-                <span>English (US)</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
+              {/* Language Selector - desktop */}
+              <div className="relative hidden md:block">
+                <button
+                  onClick={() => setLangOpen(!langOpen)}
+                  className="flex items-center gap-1 bg-white/20 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-white hover:bg-white/30 transition-colors text-sm"
+                >
+                  <span>{languages.find(l => l.code === language)?.label}</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                {langOpen && (
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg overflow-hidden z-50">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => { setLanguage(lang.code); setLangOpen(false); }}
+                        className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
+                          language === lang.code
+                            ? "bg-[#155DFC] text-white font-semibold"
+                            : "text-gray-700 hover:bg-blue-50"
+                        }`}
+                      >
+                        {lang.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <button className="hidden sm:block bg-white text-gray-900 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-sm text-sm sm:text-base">
-                Get Started
+                {t.nav.getStarted}
               </button>
               {/* Hamburger - mobile only */}
               <button
@@ -110,12 +148,24 @@ export default function HeroSection() {
                 </a>
               ))}
               <div className="border-t border-white/20 mt-2 pt-3 flex flex-col gap-2 px-4">
-                <button className="flex items-center gap-1 text-white text-sm py-2">
-                  <span>English (US)</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
+                <p className="text-white/60 text-xs uppercase tracking-wide">{t.nav.language}</p>
+                <div className="flex gap-2">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => setLanguage(lang.code)}
+                      className={`flex-1 py-2 rounded-full text-sm font-medium transition-colors ${
+                        language === lang.code
+                          ? "bg-white text-[#155DFC]"
+                          : "bg-white/20 text-white hover:bg-white/30"
+                      }`}
+                    >
+                      {lang.code === "EN" ? "English" : "\u4E2D\u6587"}
+                    </button>
+                  ))}
+                </div>
                 <button className="bg-white text-[#155DFC] px-4 py-2.5 rounded-full font-semibold text-sm w-full">
-                  Get Started
+                  {t.nav.getStarted}
                 </button>
               </div>
             </div>
@@ -123,7 +173,7 @@ export default function HeroSection() {
         </nav>
 
         {/* Hero Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 pt-6 sm:pt-8 lg:pt-16 pb-10 sm:pb-24 lg:pb-32">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-16 pt-6 sm:pt-8 lg:pt-16 pb-10 sm:pb-24 lg:pb-32">
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
 
             {/* Right Content - Hero Image (on top for mobile) */}
@@ -143,20 +193,17 @@ export default function HeroSection() {
             {/* Left Content */}
             <div className="space-y-4 sm:space-y-6 text-center lg:text-left lg:order-first">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                <span className="text-gray-900">Learn Faster.</span>
+                <span className="text-gray-900">{t.hero.heading1}</span>
                 <br />
-                <span className="text-[#1E6FFF]">Practice</span>
-                <br />
-                <span className="text-[#1E6FFF]">Smarter.</span>
-                <span className="text-[#1E6FFF]">Quiz</span>
-                <br />
-                <span className="text-[#1E6FFF]">Better.</span>
+                <span className="text-[#1E6FFF]">{t.hero.heading2} </span>
+                <br className="hidden sm:block" />
+                <span className="text-[#1E6FFF]">{t.hero.heading3} </span>
+                <br className="hidden sm:block" />
+                <span className="text-[#1E6FFF]">{t.hero.heading4}</span>
               </h1>
 
               <p className="text-gray-600 text-sm sm:text-lg max-w-md mx-auto lg:mx-0">
-                Master any subject with interactive quizzes, smart learning
-                paths, and instant feedback. Your personal learning companion
-                for academic excellence.
+                {t.hero.description}
               </p>
 
               {/* Email Subscription */}
@@ -166,11 +213,11 @@ export default function HeroSection() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
+                    placeholder={t.hero.emailPlaceholder}
                     className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base min-w-0"
                   />
-                  <button className="bg-white text-gray-800 px-4 sm:px-6 py-2.5 sm:py-3 font-semibold hover:bg-gray-50 transition-colors border-l border-gray-200 text-sm sm:text-base whitespace-nowrap">
-                    Subscribe
+                  <button className=" px-4 sm:px-6 py-2.5 sm:py-3 font-semibold bg-[#2b67e9]  hover:bg-[#0a4ff0]  text-white transition-colors border-l border-gray-200 text-sm sm:text-base whitespace-nowrap">
+                    {t.hero.subscribe}
                   </button>
                 </div>
               </div>
@@ -186,7 +233,7 @@ export default function HeroSection() {
                   ))}
                 </div>
                 <span className="text-gray-600 text-sm sm:text-base">
-                  Rated 4.8 by 10,000+ learners
+                  {t.hero.rating}
                 </span>
               </div>
             </div>
