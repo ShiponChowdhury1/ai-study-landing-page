@@ -14,10 +14,10 @@ const BuiltForLearnersSection = () => {
     <section id="learners" className="w-full bg-white py-20">
       <div className="mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: "1216px" }}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-14"
         >
           <h2 className="text-[32px] font-bold text-gray-900">
@@ -34,16 +34,17 @@ const BuiltForLearnersSection = () => {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.13 }}
-                whileHover={{ y: -7, boxShadow: "0 20px 40px rgba(21,93,252,0.10)" }}
+                initial={{ opacity: 0, y: 36, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.65, delay: index * 0.09, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -10, boxShadow: "0 24px 48px rgba(21,93,252,0.12)" }}
+                whileTap={{ scale: 0.98 }}
                 className="flex flex-col items-center rounded-2xl border border-gray-100 bg-white px-6 py-8 text-center shadow-sm cursor-pointer"
               >
                 <motion.div
-                  whileHover={{ scale: 1.15, rotate: -5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
+                  whileHover={{ scale: 1.18, rotate: -6 }}
+                  transition={{ type: "spring", stiffness: 280, damping: 16 }}
                   className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-blue-50"
                 >
                   <Icon className="h-7 w-7 text-[#155DFC]" />

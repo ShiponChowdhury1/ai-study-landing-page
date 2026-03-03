@@ -16,10 +16,10 @@ const HowItWorksSection = () => {
       <div className="mx-auto px-5 sm:px-6 lg:px-8 max-w-[1216px]">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-10 sm:mb-12 lg:mb-14"
         >
           <h2 className="text-2xl sm:text-[28px] lg:text-[32px] font-bold text-gray-900">{t.howItWorks.heading}</h2>
@@ -35,7 +35,7 @@ const HowItWorksSection = () => {
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 1.2, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="absolute hidden lg:block origin-left"
             style={{
               top: "95px",
@@ -51,11 +51,12 @@ const HowItWorksSection = () => {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.15, ease: "easeOut" }}
-                whileHover={{ y: -6, boxShadow: "0 16px 32px rgba(21,93,252,0.10)" }}
+                initial={{ opacity: 0, y: 40, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.65, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -8, boxShadow: "0 20px 40px rgba(21,93,252,0.12)" }}
+                whileTap={{ scale: 0.98 }}
                 className="relative flex flex-col items-center text-center w-full rounded-2xl border border-[#F3F4F6] bg-white pt-12 pb-8 sm:pt-10 sm:pb-6 px-5 sm:px-4 cursor-pointer"
                 style={{ zIndex: 1 }}
               >
@@ -64,7 +65,7 @@ const HowItWorksSection = () => {
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + index * 0.15, type: "spring", stiffness: 200 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 16, delay: 0.2 + index * 0.1 }}
                   className="absolute flex items-center justify-center rounded-full bg-[#155DFC] font-bold text-white shadow-md w-10 h-10 sm:w-12 sm:h-12 -top-5 sm:-top-6 left-1/2 -translate-x-1/2 text-sm sm:text-lg"
                 >
                   {stepNumbers[index]}

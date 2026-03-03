@@ -19,10 +19,10 @@ const FeaturesSection = () => {
       <div className="mx-auto px-5 sm:px-6 lg:px-8 max-w-[1216px]">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-10 sm:mb-12 lg:mb-16"
         >
           <h2 className="text-2xl sm:text-[28px] lg:text-[32px] font-bold text-gray-900">
@@ -38,18 +38,19 @@ const FeaturesSection = () => {
           {t.features.items.map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.12 }}
-              whileHover={{ y: -8, boxShadow: "0 20px 40px rgba(21,93,252,0.12)" }}
+              initial={{ opacity: 0, y: 36, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.65, delay: index * 0.09, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -10, boxShadow: "0 24px 48px rgba(21,93,252,0.13)" }}
+              whileTap={{ scale: 0.98 }}
               className="flex flex-col items-center text-center w-full rounded-2xl border border-[#F3F4F6] bg-white p-4 sm:p-6 cursor-pointer"
             >
               {/* Blob Shape Image */}
               <div className="mb-4 sm:mb-5 relative w-[160px] h-[160px] sm:w-[200px] sm:h-[200px]">
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
+                  whileHover={{ scale: 1.07 }}
+                  transition={{ type: "spring", stiffness: 280, damping: 18 }}
                   className="relative overflow-hidden w-[140px] h-[160px] sm:w-[180px] sm:h-[200px] mx-auto"
                   style={{ borderRadius: "63% 37% 30% 70% / 50% 45% 55% 50%" }}
                 >

@@ -201,14 +201,14 @@ export default function HeroSection() {
 
             {/* Right Content - Hero Image (on top for mobile) */}
             <motion.div
-              initial={{ opacity: 0, x: 60 }}
+              initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
               className="relative flex justify-center lg:justify-end lg:order-last w-full"
             >
               <motion.div
-                animate={{ y: [0, -14, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 className="relative w-full max-w-[260px] sm:max-w-md lg:max-w-lg"
               >
                 <Image
@@ -228,12 +228,12 @@ export default function HeroSection() {
               animate="visible"
               variants={{
                 hidden: {},
-                visible: { transition: { staggerChildren: 0.15 } }
+                visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } }
               }}
               className="space-y-4 sm:space-y-6 text-center lg:text-left lg:order-first"
             >
               <motion.h1
-                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                variants={{ hidden: { opacity: 0, y: 28 }, visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } } }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
               >
                 <span className="text-gray-900">{t.hero.heading1}</span>
@@ -246,7 +246,7 @@ export default function HeroSection() {
               </motion.h1>
 
               <motion.p
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
                 className="text-gray-600 text-sm sm:text-lg max-w-md mx-auto lg:mx-0"
               >
                 {t.hero.description}
@@ -254,7 +254,7 @@ export default function HeroSection() {
 
               {/* Email Subscription */}
               <motion.div
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
                 className="flex max-w-md mx-auto lg:mx-0"
               >
                 <div className="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex">
@@ -273,7 +273,7 @@ export default function HeroSection() {
 
               {/* Rating */}
               <motion.div
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
                 className="flex items-center gap-2 justify-center lg:justify-start"
               >
                 <div className="flex">
@@ -282,7 +282,7 @@ export default function HeroSection() {
                       key={i}
                       initial={{ opacity: 0, scale: 0 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.8 + i * 0.1, duration: 0.3, type: "spring" }}
+                      transition={{ delay: 0.6 + i * 0.07, type: "spring", stiffness: 260, damping: 16 }}
                     >
                       <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 text-yellow-400" />
                     </motion.span>

@@ -20,15 +20,15 @@ const FocusedLearningSection = () => {
       <div className="mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: "1216px" }}>
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="relative text-center mb-14"
         >
           <motion.div
-            animate={{ x: [0, 8, 0], y: [0, -4, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ x: [0, 10, 0], y: [0, -5, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2"
           >
             <HiOutlinePaperAirplane className="h-9 w-9 text-[#155DFC] -rotate-45 opacity-80" />
@@ -40,8 +40,8 @@ const FocusedLearningSection = () => {
             {t.focusedLearning.subheading}
           </p>
           <motion.div
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ scale: [1, 1.25, 1] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border-4 border-teal-400"
           />
         </motion.div>
@@ -51,11 +51,11 @@ const FocusedLearningSection = () => {
           {mockups.map((mockup, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 60, scale: 0.92 }}
+              initial={{ opacity: 0, y: 50, scale: 0.93 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: index * 0.12, ease: "easeOut" }}
-              whileHover={{ y: -10, scale: 1.03 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -12, scale: 1.04 }}
               className="relative snap-start flex-shrink-0 w-[75vw] sm:w-[42vw] lg:w-auto cursor-pointer"
             >
               <Image
