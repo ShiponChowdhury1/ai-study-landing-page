@@ -4,18 +4,40 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ChevronDown, Star, Menu, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { motion } from "framer-motion";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const sectionIds = ["features", "how-it-works", "quiz", "learners"];
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(`#${id}`);
+        },
+        { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   const languages = [
@@ -45,8 +67,7 @@ export default function HeroSection() {
 
       {/* Mobile solid background */}
       <div
-        className="sm:hidden absolute inset-0 w-full h-full -z-10"
-        style={{ backgroundColor: "#E8F0FE" }}
+        className="sm:hidden absolute inset-0 w-full h-full -z-10 bg-[#E8F0FE]"
       />
 
       {/* Content Container */}
@@ -75,12 +96,16 @@ export default function HeroSection() {
             </div>
 
             {/* Nav Items - Hidden on mobile/tablet */}
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <div className="hidden lg:flex items-center gap-1 xl:gap-2">
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-white hover:text-white/80 transition-colors font-medium text-sm xl:text-base"
+                  className={`relative px-3 xl:px-4 py-1.5 rounded-full text-sm xl:text-base font-medium transition-all duration-300 ${
+                    activeSection === item.href
+                      ? "bg-white text-[#155DFC] shadow-sm"
+                      : "text-white hover:bg-white/15"
+                  }`}
                 >
                   {item.name}
                 </a>
@@ -116,9 +141,6 @@ export default function HeroSection() {
                   </div>
                 )}
               </div>
-              <button className="hidden sm:block bg-white text-gray-900 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-sm text-sm sm:text-base">
-                {t.nav.getStarted}
-              </button>
               {/* Hamburger - mobile only */}
               <button
                 className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200"
@@ -142,7 +164,11 @@ export default function HeroSection() {
                   key={item.name}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="text-white font-medium py-3 px-4 rounded-lg hover:bg-white/20 transition-colors text-sm"
+                  className={`font-medium py-3 px-4 rounded-lg transition-all duration-200 text-sm ${
+                    activeSection === item.href
+                      ? "bg-white text-[#155DFC]"
+                      : "text-white hover:bg-white/20"
+                  }`}
                 >
                   {item.name}
                 </a>
@@ -164,9 +190,6 @@ export default function HeroSection() {
                     </button>
                   ))}
                 </div>
-                <button className="bg-white text-[#155DFC] px-4 py-2.5 rounded-full font-semibold text-sm w-full">
-                  {t.nav.getStarted}
-                </button>
               </div>
             </div>
           )}
@@ -177,8 +200,17 @@ export default function HeroSection() {
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
 
             {/* Right Content - Hero Image (on top for mobile) */}
-            <div className="relative flex justify-center lg:justify-end lg:order-last w-full">
-              <div className="relative w-full max-w-[260px] sm:max-w-md lg:max-w-lg">
+            <motion.div
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+              className="relative flex justify-center lg:justify-end lg:order-last w-full"
+            >
+              <motion.div
+                animate={{ y: [0, -14, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full max-w-[260px] sm:max-w-md lg:max-w-lg"
+              >
                 <Image
                   src="/images/navbar/right-image.png"
                   alt="Happy student learning"
@@ -187,12 +219,23 @@ export default function HeroSection() {
                   className="object-contain"
                   priority
                 />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Left Content */}
-            <div className="space-y-4 sm:space-y-6 text-center lg:text-left lg:order-first">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.15 } }
+              }}
+              className="space-y-4 sm:space-y-6 text-center lg:text-left lg:order-first"
+            >
+              <motion.h1
+                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+              >
                 <span className="text-gray-900">{t.hero.heading1}</span>
                 <br />
                 <span className="text-[#1E6FFF]">{t.hero.heading2} </span>
@@ -200,14 +243,20 @@ export default function HeroSection() {
                 <span className="text-[#1E6FFF]">{t.hero.heading3} </span>
                 <br className="hidden sm:block" />
                 <span className="text-[#1E6FFF]">{t.hero.heading4}</span>
-              </h1>
+              </motion.h1>
 
-              <p className="text-gray-600 text-sm sm:text-lg max-w-md mx-auto lg:mx-0">
+              <motion.p
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                className="text-gray-600 text-sm sm:text-lg max-w-md mx-auto lg:mx-0"
+              >
                 {t.hero.description}
-              </p>
+              </motion.p>
 
               {/* Email Subscription */}
-              <div className="flex max-w-md mx-auto lg:mx-0">
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                className="flex max-w-md mx-auto lg:mx-0"
+              >
                 <div className="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex">
                   <input
                     type="email"
@@ -220,23 +269,30 @@ export default function HeroSection() {
                     {t.hero.subscribe}
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Rating */}
-              <div className="flex items-center gap-2 justify-center lg:justify-start">
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                className="flex items-center gap-2 justify-center lg:justify-start"
+              >
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
-                    <Star
+                    <motion.span
                       key={i}
-                      className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 text-yellow-400"
-                    />
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.8 + i * 0.1, duration: 0.3, type: "spring" }}
+                    >
+                      <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 text-yellow-400" />
+                    </motion.span>
                   ))}
                 </div>
                 <span className="text-[#364153] text-[16px] sm:text-base">
                   {t.hero.rating}
                 </span>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
           </div>
         </div>
@@ -244,8 +300,7 @@ export default function HeroSection() {
 
       {/* Desktop/tablet background fallback */}
       <div
-        className="hidden sm:block absolute inset-0 w-full h-full -z-10"
-        style={{ backgroundColor: "#E8F0FE" }}
+        className="hidden sm:block absolute inset-0 w-full h-full -z-10 bg-[#E8F0FE]"
       />
     </section>
   );

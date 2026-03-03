@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { motion } from "framer-motion";
 
 const CTASection = () => {
   const { t } = useLanguage();
@@ -13,7 +14,11 @@ const CTASection = () => {
         background: "linear-gradient(135deg, #155DFC 0%, #1248D6 50%, #0D3BA8 100%)",
       }}
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
         className="mx-auto text-center px-5 sm:px-6 lg:px-8"
         style={{ maxWidth: "1216px" }}
       >
@@ -25,15 +30,31 @@ const CTASection = () => {
         </p>
 
         {/* App Store Buttons */}
-        <div className="mt-10 flex items-center justify-center gap-4">
-          <a href="#" className="hover:opacity-90 transition-opacity">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-10 flex items-center justify-center gap-4"
+        >
+          <motion.a
+            href="#"
+            whileHover={{ scale: 1.07 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <Image src="/logo/appleStore.png" alt="Download on App Store" width={200} height={50} className="border-none" />
-          </a>
-          <a href="#" className="hover:opacity-90 transition-opacity">
+          </motion.a>
+          <motion.a
+            href="#"
+            whileHover={{ scale: 1.07 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <Image src="/logo/appStore.png" alt="Get it on Google Play" width={200} height={50} className="border-none" />
-          </a>
-        </div>
-      </div>
+          </motion.a>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
